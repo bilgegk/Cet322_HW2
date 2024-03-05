@@ -1,0 +1,49 @@
+﻿@model List<Cet322_HW1.Models.Book>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kitap Bilgileri</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>Kitap Adı</th>
+            <th>Yazar</th>
+            <th>Sayfa Sayısı</th>
+            <th>Teslim Tarihi</th>
+            <th>Kalan Gün</th>
+        </tr>
+        @foreach (var book in Model)
+        {
+            var remainingDays = (book.DueDate - DateTime.Now).Days;
+            string cellColor = remainingDays < 0 ? "#FF6464" : remainingDays <= 5 ? "#FFE162" : "#91C483";
+            <tr>
+                <td>@book.BookName</td>
+                <td>@book.Author</td>
+                <td>@book.PageNumber</td>
+                <td>@book.DueDate.ToShortDateString()</td>
+                <td style="background-color: @cellColor">@remainingDays</td>
+            </tr>
+        }
+    </table>
+    <a class="btn btn-success" href="@Url.Action("Create", "Book")">Create New Book</a>
+
+</body>
+</html>
